@@ -11,7 +11,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons'
 const ProfileCard = ({ user }) => {
     return (
         <>
-            <div className='bg-black h-60 w-96 rounded-lg transition-transform hover:scale-105 relative'>
+            <div className='bg-black h-60 w-96 rounded-lg transition-transform hover:scale-105 hover:border hover:border-rose-500 relative'>
                 <div className='flex'>
                     <div className='ml-4 mt-4 mb-2 w-20 h-20 overflow-hidden rounded-full'>
                         <img src={user?.avatar} className='w-full h-full object-cover' />
