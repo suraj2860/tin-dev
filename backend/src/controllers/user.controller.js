@@ -42,15 +42,18 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // check for avatar
-    const avatarLocalPath = req.files?.avatar[0]?.path;
-
+    const avatarLocalPath = req.files?.avatar ? req.files?.avatar[0]?.path : null;
+    let avatar;
     if (!avatarLocalPath) {
-        throw new ApiError(400, "Avatar file is required");
+        avatar = {
+            url: "https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
+        }
     }
-
-    // upload avatar and coverImage on cloudinary
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-
+    else{
+        // upload avatar and coverImage on cloudinary
+        avatar = await uploadOnCloudinary(avatarLocalPath);
+    }
+    
     if (!avatar) {
         throw new ApiError(400, "Avatar file is required");
     }
