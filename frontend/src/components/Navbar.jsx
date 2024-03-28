@@ -1,10 +1,38 @@
 import React from 'react'
 import logo from "../assets/tindev-logo-2.png";
 import avatar from "../assets/avatar.jpg";
-import { Link } from 'react-router-dom';
-
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/authSlice.js';
 
 const Navbar = () => {
+
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const location = useLocation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        fetch("http://localhost:8000/api/v1/users/logout", {
+            method: 'POST',
+            headers: {
+                'Authorization': user?.accessToken,
+                'Content-Type': 'application/json' // Specify JSON content type
+            }
+        }).then(res => res.json())
+            .then(res => {
+                if (res.success) {
+
+                    dispatch(logout());
+
+                    document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+                    navigate('/');
+                }
+            }).catch(err => console.log(err.message));
+    }
 
     return (
         <>
@@ -25,9 +53,18 @@ const Navbar = () => {
                         <Link to={"/"} className='hover:text-rose-400'>Contact</Link>
                     </li>
                 </ul>
-                <div className='absolute right-0 pr-12'>
-                    <img src={avatar} className='flex size-8 rounded-3xl' />
-                </div>
+                {
+                    location.pathname === '/login' ?
+                        <Link to="/register" className='bg-rose-400 h-8  w-20 rounded border text-medium border-black text-black flex items-center justify-center'>Register</Link>
+                        :
+                        isAuthenticated ?
+                            <div className='flex space-x-4'>
+                                <img src={avatar} className="size-8 rounded-3xl" alt="Avatar" />
+                                <button className='bg-rose-400 w-20 rounded border border-black text-black' onClick={handleLogout}>Log out</button>
+                            </div>
+                            :
+                            <Link to="/login" className='bg-rose-400 w-20 rounded border h-8 border-black text-black flex items-center justify-center'>Login</Link>
+                }
             </div>
 
         </>

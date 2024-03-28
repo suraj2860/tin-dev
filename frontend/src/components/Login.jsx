@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router';
+import {useDispatch} from 'react-redux';
+import { login } from '../redux/authSlice.js';
 
 const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
 
   const handleLogin = () => {
     fetch("http://localhost:8000/api/v1/users/login", {
@@ -22,12 +26,18 @@ const Login = () => {
       .then(res => {
         if (res.success) {
 
+          dispatch(login(res.data));
+
           document.cookie = `accessToken=${res.data.accessToken}; path=/`;
           document.cookie = `refreshToken=${res.data.refreshToken}; path=/`;
 
           navigate('/');
         }
       }).catch(err => console.log(err.message));
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleLogin();
   }
 
   return (
@@ -42,6 +52,7 @@ const Login = () => {
               type="text"
               value={username}
               onChange={e => setUsername(e.target.value)}
+              onKeyDown={handleKeyDown}
               className='text-sm h-8 w-96 py-1 px-2 rounded border border-white bg-neutral-800' />
           </div>
           <div className='flex flex-col mt-4'>
@@ -50,6 +61,7 @@ const Login = () => {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
               className=' text-sm h-8 w-96 py-1 px-2 rounded border border-white bg-neutral-800' />
           </div>
           <button className='mt-10 bg-rose-500 text-black rounded w-80 mb-12 w-24 h-8' onClick={handleLogin}>Login</button>
