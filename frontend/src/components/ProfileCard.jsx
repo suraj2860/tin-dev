@@ -7,6 +7,7 @@ import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
@@ -29,12 +30,21 @@ const ProfileCard = ({ user }) => {
                 <div className='flex m-2'>
                     <h1 className='text-sm mx-2'>Skills:</h1>
                     <ul className='text-xs flex flex-wrap'>
-                        {user?.skills?.map(skill => (
+                        {user?.skills?.slice(0, 8).map(skill => (
                             <li key={skill} className='px-2 m-1 bg-rose-500 text-black rounded font-medium'>{skill}</li>
                         ))}
                     </ul>
                 </div>
                 <div className='flex mt-auto justify-center absolute bottom-5 left-0 right-0 space-x-6'>
+                    {user?.email && (   
+                        <Link
+                            to={isAuthenticated ? `mailto:${user.email}` : "/login"}
+                            target={isAuthenticated ? "_blank" : "_self"}
+                            rel="noopener noreferrer"
+                        >
+                            <FontAwesomeIcon icon={faEnvelope} className='size-6  transition-transform hover:scale-125 cursor-pointer' />
+                        </Link>
+                    )}
                     {user?.github && (
                         <Link
                             to={isAuthenticated ? user.github : "/login"}

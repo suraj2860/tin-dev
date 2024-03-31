@@ -28,7 +28,7 @@ const Register = () => {
         const file = e.target.files[0];
         if (file) setAvatar(file);
 
-        console.log(avatar);
+        //console.log(avatar);
     };
 
     const handleRegister = () => {
@@ -58,7 +58,7 @@ const Register = () => {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    console.log(res);
+                    //console.log(res);
                     if(res.success) {
                         navigate('/');
                     }
@@ -140,7 +140,7 @@ const Register = () => {
                         <input type="text" onChange={(e) => setOtherLink(e.target.value)} className='text-sm h-6 bg-neutral-800 rounded border ml-8 w-96' />
                     </div>
                     <div className='my-10'>
-                        <button className='bg-white text-black rounded w-20 ml-80 w-24 h-8'>Cancel</button>
+                        <button className='bg-white text-black rounded w-20 ml-80 w-24 h-8' onClick={() => navigate('/')}>Cancel</button>
                         <button className='bg-rose-500 text-black rounded w-20 ml-8 w-24 h-8' onClick={handleRegister}>Register</button>
                     </div>
                 </div>

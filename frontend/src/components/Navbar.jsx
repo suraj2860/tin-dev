@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from "../assets/tindev-logo-2.png";
 import avatar from "../assets/avatar.jpg";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -12,12 +12,22 @@ const Navbar = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleLogout = () => {
+        const cookies = document.cookie.split('; ');
+
+                const accessTokenCookie = cookies.find(cookie => cookie.startsWith('accessToken='));
+
+                let accessToken = '';
+                if (accessTokenCookie) {
+                    accessToken = accessTokenCookie.split('=')[1];
+                }
+
         fetch("http://localhost:8000/api/v1/users/logout", {
             method: 'POST',
             headers: {
-                'Authorization': user?.accessToken,
+                'Authorization': accessToken,
                 'Content-Type': 'application/json' // Specify JSON content type
             }
         }).then(res => res.json())
@@ -32,6 +42,14 @@ const Navbar = () => {
                     navigate('/');
                 }
             }).catch(err => console.log(err.message));
+    }
+
+    const handleAvatarClick = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
+    const handleProfile = () => {
+        navigate('/profile');
     }
 
     return (
@@ -55,15 +73,26 @@ const Navbar = () => {
                 </ul>
                 {
                     location.pathname === '/login' ?
-                        <Link to="/register" className='bg-rose-400 h-8  w-20 rounded border text-medium border-black text-black flex items-center justify-center'>Register</Link>
+                        <Link to="/register" className='bg-rose-400 h-8  w-20 rounded border border-white text-medium  text-black flex items-center justify-center'>Register</Link>
                         :
                         isAuthenticated ?
-                            <div className='flex space-x-4'>
-                                <img src={avatar} className="size-8 rounded-3xl" alt="Avatar" />
-                                <button className='bg-rose-400 w-20 rounded border border-black text-black' onClick={handleLogout}>Log out</button>
+                            <div className='flex ml-10 space-x-4 '>
+                                <img src={user?.user?.avatar} className="size-8 rounded-3xl" alt="Avatar" onClick={handleAvatarClick} />
+                                {isDropdownOpen && (
+                                    <ul className='absolute mt-10 w-24 flex justify-center flex-col cursor-pointer bg-neutral-800 text-white border-l border-t border-r  border-gray-200 shadow-md'>
+                                        <li className='px-4 py-1 text-xs  hover:bg-rose-400 cursor-pointer hover:text-black w-full text-left border-b border-white'
+                                            onClick={handleProfile}
+                                        >Profile
+                                        </li>
+                                        <li
+                                            className='block px-4 py-1 text-xs hover:bg-rose-400 hover:text-black w-full text-left border-b border-white '
+                                            onClick={handleLogout}
+                                        >Log out</li>
+                                    </ul>
+                                )}
                             </div>
                             :
-                            <Link to="/login" className='bg-rose-400 w-20 rounded border h-8 border-black text-black flex items-center justify-center'>Login</Link>
+                            <Link to="/login" className='bg-rose-400 w-20 rounded border border-white h-8  text-black flex items-center justify-center'>Login</Link>
                 }
             </div>
 

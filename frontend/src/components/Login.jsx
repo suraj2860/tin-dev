@@ -64,7 +64,7 @@ const Login = () => {
               onKeyDown={handleKeyDown}
               className=' text-sm h-8 w-96 py-1 px-2 rounded border border-white bg-neutral-800' />
           </div>
-          <button className='mt-10 bg-rose-500 text-black rounded w-80 mb-12 w-24 h-8' onClick={handleLogin}>Login</button>
+          <button className='mt-10 bg-rose-500 text-black rounded border border-white w-80 mb-12 w-24 h-8' onClick={handleLogin}>Login</button>
         </div>
       </div>
     </>
