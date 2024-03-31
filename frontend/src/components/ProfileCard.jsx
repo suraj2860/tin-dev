@@ -27,7 +27,7 @@ const ProfileCard = ({ user }) => {
                         <h3 className='text-gray-400 text-xs'><FontAwesomeIcon icon={faLocationDot} /> {`${user?.state}, ${user?.country}`}</h3>
                     </div>
                 </div>
-                <div className='flex m-2'>
+                <div className='flex m-2 mt-0'>
                     <h1 className='text-sm mx-2'>Skills:</h1>
                     <ul className='text-xs flex flex-wrap'>
                         {user?.skills?.slice(0, 8).map(skill => (

@@ -60,7 +60,7 @@ const Register = () => {
                 .then((res) => {
                     //console.log(res);
                     if(res.success) {
-                        navigate('/');
+                        navigate('/login');
                     }
                 })
                 .catch(err => console.log(err.message));
