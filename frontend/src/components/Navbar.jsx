@@ -17,12 +17,12 @@ const Navbar = () => {
     const handleLogout = () => {
         const cookies = document.cookie.split('; ');
 
-                const accessTokenCookie = cookies.find(cookie => cookie.startsWith('accessToken='));
+        const accessTokenCookie = cookies.find(cookie => cookie.startsWith('accessToken='));
 
-                let accessToken = '';
-                if (accessTokenCookie) {
-                    accessToken = accessTokenCookie.split('=')[1];
-                }
+        let accessToken = '';
+        if (accessTokenCookie) {
+            accessToken = accessTokenCookie.split('=')[1];
+        }
 
         fetch("http://localhost:8000/api/v1/users/logout", {
             method: 'POST',
@@ -48,17 +48,19 @@ const Navbar = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-    const handleProfile = () => {
-        navigate('/profile');
-    }
 
     return (
         <>
             <div className='bg-black h-16 flex items-center relative'>
-                <img src={logo} className='flex h-10 pl-10 pr-4' />
-                <h1 className='text-2xl font-semibold text-rose-400 font-sans'>tin</h1><h1 className='text-2xl font-semibold '>dev</h1>
+                <div className='flex justify-center items-center' onClick={() => navigate('/')}>
+                    <img src={logo} className='flex h-10 pl-10 pr-4' />
+                    <h1 className='text-2xl font-semibold text-rose-400 font-sans cursor-default'>tin</h1><h1 className='cursor-default text-2xl font-semibold '>dev</h1>
+                </div>
                 <div className='pl-80'>
-                    <input type="text" placeholder='Search' className='rounded-xl border h-8 w-96 bg-neutral-800 p-2 ' />
+                    {location.pathname !== '/login' ? <input type="text" placeholder='Search' className='rounded-xl border h-8 w-96 bg-neutral-800 p-2 ' />
+                        :
+                        <div className='w-96'></div>}
+
                 </div>
                 <ul className='flex flex-row px-16 text-gray-200 text-base'>
                     <li className='px-6 transition-transform hover:scale-110'>
@@ -81,8 +83,12 @@ const Navbar = () => {
                                 {isDropdownOpen && (
                                     <ul className='absolute mt-10 w-24 flex justify-center flex-col cursor-pointer bg-neutral-800 text-white border-l border-t border-r  border-gray-200 shadow-md'>
                                         <li className='px-4 py-1 text-xs  hover:bg-rose-400 cursor-pointer hover:text-black w-full text-left border-b border-white'
-                                            onClick={handleProfile}
+                                            onClick={() => navigate('/profile')}
                                         >Profile
+                                        </li>
+                                        <li className='px-4 py-1 text-xs  hover:bg-rose-400 cursor-pointer hover:text-black w-full text-left border-b border-white'
+                                            onClick={() => navigate('/settings')}
+                                        >Settings
                                         </li>
                                         <li
                                             className='block px-4 py-1 text-xs hover:bg-rose-400 hover:text-black w-full text-left border-b border-white '
