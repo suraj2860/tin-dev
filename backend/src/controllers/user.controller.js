@@ -237,7 +237,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                user,
+                {user: user},
                 "Profile updated successfully"
             )
         );
@@ -270,7 +270,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         {
             new: true
         }
-    ).select("-password");
+    ).select("-password -refreshToken");
 
     if (user) {
         await deleteFromCloudinary(oldAvatarPublicId, "image");
@@ -281,7 +281,9 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                user,
+                {
+                    user: user
+                },
                 "Avatar updated successfully"
             )
         );
@@ -372,7 +374,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                await req.user,
+                {user : await req.user},
                 "Current fetched successfuly"
             )
         );
