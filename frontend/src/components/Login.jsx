@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router';
 import {useDispatch} from 'react-redux';
@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+  const [error, setError] = useState("");
 
   const handleLogin = () => {
     fetch("http://localhost:8000/api/v1/users/login", {
@@ -33,6 +33,10 @@ const Login = () => {
 
           navigate('/');
         }
+        else{
+          //console.log(res);
+          setError(res.error);
+        }
       }).catch(err => console.log(err.message));
   }
 
@@ -40,12 +44,22 @@ const Login = () => {
     if (e.key === "Enter") handleLogin();
   }
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(""); // Clear the error message after 5 seconds
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   return (
     <>
       <Navbar />
-      <div className='flex justify-center mt-16'>
+      <div className='flex justify-center mt-32'>
         <div className='bg-black w-2/6 h-200 rounded-lg flex flex-col justify-center items-center text-white border border-rose-500'>
           <h1 className='my-6 text-rose-400 text-xl font-semibold'>Login</h1>
+          <div className='absolute mt-24  top-0 w-80 pl-8 rounded bg-red-500 text-black right-0 '>{error}</div>
           <div className='flex flex-col '>
             <label htmlFor="" className='mb-2'>Username</label>
             <input

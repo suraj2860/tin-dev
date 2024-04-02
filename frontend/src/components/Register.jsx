@@ -22,6 +22,8 @@ const Register = () => {
     const [youtube, setYoutube] = useState("");
     const [otherLink, setOtherLink] = useState("");
 
+    const [error, setError] = useState("");
+
     const navigate = useNavigate();
 
     const handleImageUpload = (e) => {
@@ -59,8 +61,12 @@ const Register = () => {
                 .then((res) => res.json())
                 .then((res) => {
                     //console.log(res);
-                    if(res.success) {
+                    if (res.success) {
                         navigate('/login');
+                    }
+                    else {
+                        console.log(res);
+                        setError(res.error);
                     }
                 })
                 .catch(err => console.log(err.message));
@@ -69,10 +75,20 @@ const Register = () => {
         }
     }
 
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => {
+                setError(""); // Clear the error message after 5 seconds
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
+
     return (
         <>
             <Navbar />
-            <div className='flex justify-center flex-col  mt-8 bg-black mx-32 rounded-xl border border-rose-400 text-sm'>
+            <div className='flex justify-center flex-col  mt-24 bg-black mx-32 rounded-xl border border-rose-400 text-sm'>
+                <div className='absolute mt-24  top-0 w-80 pl-8 rounded bg-red-500 text-black right-0 '>{error}</div>
                 <div className='flex justify-center'>
                     <h1 className='text-xl mt-6 mb-2 text-rose-400'>User Registration</h1>
                 </div>

@@ -15,7 +15,7 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <div className='flex justify-center pt-4 flex-wrap'>
+            <div className='flex justify-center pt-4 flex-wrap mt-16'>
                 {users.map(user => (
                     <div key={user._id} className='m-4'>
                         <ProfileCard user={user} />

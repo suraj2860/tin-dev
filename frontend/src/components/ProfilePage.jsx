@@ -40,6 +40,7 @@ const ProfilePage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const [error, setError] = useState("");
 
     const startEdit = () => {
         setEdit(true);
@@ -54,6 +55,15 @@ const ProfilePage = () => {
     useEffect(() => {
         updateAvatar();
     }, [avatar]);
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => {
+                setError(""); // Clear the error message after 5 seconds
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const handleSave = () => {
         try {
@@ -112,7 +122,10 @@ const ProfilePage = () => {
                             }
                             dispatch(login(updatedUser));
                         }
-
+                        else {
+                            //console.log(res);
+                            setError(res.error);
+                        }
                     })
                     .catch(err => console.log(err.message));
             }
@@ -129,17 +142,17 @@ const ProfilePage = () => {
             const formData = new FormData();
             formData.append('avatar', avatar);
 
-            const formDataString = Array.from(formData).map(([key, value]) => `${key}=${value}`).join(' & ');
+            //const formDataString = Array.from(formData).map(([key, value]) => `${key}=${value}`).join(' & ');
             //console.log(formDataString);
 
             const cookies = document.cookie.split('; ');
 
-                const accessTokenCookie = cookies.find(cookie => cookie.startsWith('accessToken='));
+            const accessTokenCookie = cookies.find(cookie => cookie.startsWith('accessToken='));
 
-                let accessToken = '';
-                if (accessTokenCookie) {
-                    accessToken = accessTokenCookie.split('=')[1];
-                }
+            let accessToken = '';
+            if (accessTokenCookie) {
+                accessToken = accessTokenCookie.split('=')[1];
+            }
 
             fetch("http://localhost:8000/api/v1/users/update-avatar", {
                 method: "PATCH",
@@ -161,6 +174,10 @@ const ProfilePage = () => {
                         dispatch(login(updatedUser));
                         setAvatar(res.data.user.avatar);
                     }
+                    else {
+                        //console.log(res);
+                        setError(res.error);
+                    }
                 })
                 .catch(err => console.log(err.message));
         }
@@ -172,7 +189,7 @@ const ProfilePage = () => {
             {!edit ?
                 <>
                     <Navbar />
-                    <div className="container mx-auto w-9/12 mt-8 bg-black p-8 rounded-lg border border-rose-500 relative">
+                    <div className="container mx-auto w-9/12 mt-24 bg-black p-8 rounded-lg border border-rose-500 relative ">
                         <div className="flex  ">
                             <div className='ml-4 mt-4 mb-2 w-32 h-32 overflow-hidden rounded-full '>
                                 <img src={avatar} className='w-full h-full object-cover' />
@@ -214,7 +231,8 @@ const ProfilePage = () => {
                 :
                 <>
                     <Navbar />
-                    <div className='flex justify-center flex-col  mt-8 bg-black mx-32 rounded-xl border border-rose-400 text-sm'>
+                    <div className='flex justify-center flex-col  mt-24 bg-black mx-32 rounded-xl border border-rose-400 text-sm'>
+                    <div className='absolute mt-24  top-0 w-80 pl-8 rounded bg-red-500 text-black right-0 '>{error}</div>
                         <div className='flex justify-center'>
                             <h1 className='text-xl mt-6 mb-2 text-rose-400'></h1>
                         </div>
