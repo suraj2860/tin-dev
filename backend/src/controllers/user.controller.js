@@ -344,7 +344,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     if (!oldPassword || !newPassword) {
         throw new ApiError(401, "All fields are required");
     }
-
+       
     const user = await User.findById(req.user?._id);
 
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
@@ -352,6 +352,9 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     if (!isPasswordCorrect) {
         throw new ApiError(401, "Invalid old password");
     }
+    if (oldPassword == newPassword) {
+        throw new ApiError(401, "New password can not be same as old passsword");
+    } 
 
     user.password = newPassword;
     await user.save({ validateBeforeSave: false });
@@ -380,6 +383,45 @@ const getCurrentUser = asyncHandler(async (req, res) => {
         );
 });
 
+const deleteUser = asyncHandler(async (req, res) => {
+    
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        throw new ApiError(401, "All fields are required");
+    }
+       
+    const user = await User.findById(req.user?._id);
+    if(!user){
+        throw new ApiError(404, "User not found");
+    }
+    if(user.username != username){
+        throw new ApiError(401, "Invalid username");
+    }
+
+    const isPasswordCorrect = await user.isPasswordCorrect(password);
+
+    if (!isPasswordCorrect) {
+        throw new ApiError(401, "Invalid password");
+    }
+
+    const deletedUser = await User.findByIdAndDelete(user._id);
+
+    if (!deletedUser) {
+        throw new ApiError(404, "User not found");
+      }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "User deleted successfully"
+            )
+        );
+});
+
 export { 
     registerUser, 
     getAllUsers, 
@@ -389,5 +431,6 @@ export {
     logoutUser, 
     refreshAccessToken, 
     changeCurrentPassword,
-    getCurrentUser
+    getCurrentUser,
+    deleteUser
  };
