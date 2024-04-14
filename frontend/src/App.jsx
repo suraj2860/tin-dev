@@ -7,6 +7,7 @@ import ProfilePage from './components/ProfilePage';
 import { login } from './redux/authSlice';
 import { useDispatch } from 'react-redux';
 import Settings from './components/Settings'
+import Messaging from './components/Messaging'
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/settings' element={<Settings />} />
+          <Route path='/messaging' element={<Messaging />} />
         </Routes>
       </BrowserRouter>
     </>

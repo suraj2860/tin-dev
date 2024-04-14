@@ -56,7 +56,7 @@ const Navbar = () => {
                 <img src={logo} className='flex h-10 pl-10 pr-4' />
                 <h1 className='text-2xl font-semibold text-rose-400 font-sans cursor-default'>tin</h1><h1 className='cursor-default text-2xl font-semibold '>dev</h1>
             </div>
-            <div className='pl-80'>
+            <div className='pl-56'>
                 {location.pathname !== '/login' ? <input type="text" placeholder='Search' className='rounded-xl border h-8 w-96 bg-neutral-800 p-2 ' />
                     :
                     <div className='w-96'></div>}
@@ -65,6 +65,9 @@ const Navbar = () => {
             <ul className='flex flex-row px-16 text-gray-200 text-base'>
                 <li className='px-6 transition-transform hover:scale-110'>
                     <Link to={"/"} className='hover:text-rose-400'>Home</Link>
+                </li>
+                <li className='px-6 transition-transform hover:scale-110'>
+                    <Link to={"/messaging"} className='hover:text-rose-400'>Messaging</Link>
                 </li>
                 <li className='px-6 transition-transform hover:scale-110'>
                     <Link to={"/"} className='hover:text-rose-400'>About</Link>
@@ -78,7 +81,7 @@ const Navbar = () => {
                     <Link to="/register" className='bg-rose-400 h-8  w-20 rounded border border-white text-medium  text-black flex items-center justify-center'>Register</Link>
                     :
                     isAuthenticated ?
-                        <div className='flex ml-10 space-x-4 '>
+                        <div className='flex ml-6 space-x-4 '>
                             <img src={user?.user?.avatar} className="size-8 rounded-3xl" alt="Avatar" onClick={handleAvatarClick} />
                             {isDropdownOpen && (
                                 <ul className='absolute mt-10 w-24 flex justify-center flex-col cursor-pointer bg-neutral-800 text-white border-l border-t border-r  border-gray-200 shadow-md'>
