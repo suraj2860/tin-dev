@@ -49,11 +49,11 @@ const registerUser = asyncHandler(async (req, res) => {
             url: "https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg"
         }
     }
-    else{
+    else {
         // upload avatar and coverImage on cloudinary
         avatar = await uploadOnCloudinary(avatarLocalPath);
     }
-    
+
     if (!avatar) {
         throw new ApiError(400, "Avatar file is required");
     }
@@ -237,7 +237,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                {user: user},
+                { user: user },
                 "Profile updated successfully"
             )
         );
@@ -344,7 +344,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     if (!oldPassword || !newPassword) {
         throw new ApiError(401, "All fields are required");
     }
-       
+
     const user = await User.findById(req.user?._id);
 
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
@@ -354,7 +354,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     }
     if (oldPassword == newPassword) {
         throw new ApiError(401, "New password can not be same as old passsword");
-    } 
+    }
 
     user.password = newPassword;
     await user.save({ validateBeforeSave: false });
@@ -377,25 +377,25 @@ const getCurrentUser = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                {user : await req.user},
+                { user: await req.user },
                 "Current fetched successfuly"
             )
         );
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-    
+
     const { username, password } = req.body;
 
     if (!username || !password) {
         throw new ApiError(401, "All fields are required");
     }
-       
+
     const user = await User.findById(req.user?._id);
-    if(!user){
+    if (!user) {
         throw new ApiError(404, "User not found");
     }
-    if(user.username != username){
+    if (user.username != username) {
         throw new ApiError(401, "Invalid username");
     }
 
@@ -409,7 +409,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
     if (!deletedUser) {
         throw new ApiError(404, "User not found");
-      }
+    }
 
     return res
         .status(200)
@@ -422,15 +422,25 @@ const deleteUser = asyncHandler(async (req, res) => {
         );
 });
 
-export { 
-    registerUser, 
-    getAllUsers, 
-    updateProfile, 
-    loginUser, 
-    updateUserAvatar, 
-    logoutUser, 
-    refreshAccessToken, 
+// const getUsersForSidebar = asyncHandler(async (req, res) => {
+//     const loggedInUserId = req.user._id;
+
+//     const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password -refreshToken");
+
+//     res.status(200).json(
+//         new ApiResponse(200, filteredUsers, 'users fetched successfully')
+//     );
+// });
+
+export {
+    registerUser,
+    getAllUsers,
+    updateProfile,
+    loginUser,
+    updateUserAvatar,
+    logoutUser,
+    refreshAccessToken,
     changeCurrentPassword,
     getCurrentUser,
     deleteUser
- };
+};

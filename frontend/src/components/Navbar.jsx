@@ -67,7 +67,7 @@ const Navbar = () => {
                     <Link to={"/"} className='hover:text-rose-400'>Home</Link>
                 </li>
                 <li className='px-6 transition-transform hover:scale-110'>
-                    <Link to={"/messaging"} className='hover:text-rose-400'>Messaging</Link>
+                    <Link to={isAuthenticated ? "/messaging" : "/login"} className='hover:text-rose-400'>Messaging</Link>
                 </li>
                 <li className='px-6 transition-transform hover:scale-110'>
                     <Link to={"/"} className='hover:text-rose-400'>About</Link>

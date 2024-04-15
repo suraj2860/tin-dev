@@ -22,6 +22,7 @@ router.route("/change-password").post( verifyJWT, changeCurrentPassword);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/delete-user").post(verifyJWT, deleteUser);
 
+
 router.route("/logout").post(verifyJWT, logoutUser);
 router.route('/update').patch(verifyJWT, updateProfile);
 router.route("/update-avatar").patch(

@@ -60,7 +60,9 @@ export const getMessages = asyncHandler(async (req, res) => {
 			participants: { $all: [senderId, userToChatId] },
 		}).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
-		if (!conversation) return res.status(200).json([]);
+		if (!conversation) return res.status(200).json(
+			new ApiResponse(200, [], 'Messages fetched successfully')
+		);
 
 		const messages = conversation.messages;
 

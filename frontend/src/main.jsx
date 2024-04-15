@@ -4,11 +4,14 @@ import App from './App.jsx'
 import './index.css'
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { SocketContextProvider } from './contexts/SocketContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+      <SocketContextProvider>
+        <App />
+      </SocketContextProvider>
     </React.StrictMode>
   </Provider>,
 )
