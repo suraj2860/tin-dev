@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice.js';
 import { useNavigate } from 'react-router';
+import { base_url } from '../constants.js';
 
 
 const Settings = () => {
@@ -33,7 +34,7 @@ const Settings = () => {
             accessToken = accessTokenCookie.split('=')[1];
         }
 
-        fetch("http://localhost:8000/api/v1/users/change-password", {
+        fetch(base_url + "/api/v1/users/change-password", {
             method: 'POST',
             body: JSON.stringify({
                 oldPassword,
@@ -48,7 +49,7 @@ const Settings = () => {
                 if (res.success) {
                     console.log(res);
 
-                    fetch("http://localhost:8000/api/v1/users/logout", {
+                    fetch(base_url + "/api/v1/users/logout", {
                         method: 'POST',
                         headers: {
                             'Authorization': accessToken,
@@ -82,7 +83,7 @@ const Settings = () => {
             accessToken = accessTokenCookie.split('=')[1];
         }
 
-        fetch("http://localhost:8000/api/v1/users/delete-user", {
+        fetch(base_url + "/api/v1/users/delete-user", {
             method: 'POST',
             body: JSON.stringify({
                 username,

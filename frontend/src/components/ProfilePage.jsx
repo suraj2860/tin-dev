@@ -14,6 +14,7 @@ import defaultAvatar from '../assets/avatar.jpg'
 import { useNavigate } from 'react-router';
 import { login } from '../redux/authSlice.js';
 import { useDispatch } from 'react-redux';
+import { base_url } from '../constants.js';
 
 
 
@@ -102,7 +103,7 @@ const ProfilePage = () => {
                     accessToken = accessTokenCookie.split('=')[1];
                 }
 
-                fetch("http://localhost:8000/api/v1/users/update", {
+                fetch(base_url + "/api/v1/users/update", {
                     method: "PATCH",
                     headers: {
                         'Authorization': accessToken,
@@ -154,7 +155,7 @@ const ProfilePage = () => {
                 accessToken = accessTokenCookie.split('=')[1];
             }
 
-            fetch("http://localhost:8000/api/v1/users/update-avatar", {
+            fetch(base_url + "/api/v1/users/update-avatar", {
                 method: "PATCH",
                 headers: {
                     'Authorization': accessToken

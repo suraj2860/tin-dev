@@ -8,6 +8,7 @@ import { login } from './redux/authSlice';
 import { useDispatch } from 'react-redux';
 import Settings from './components/Settings'
 import Messaging from './components/Messaging'
+import { base_url } from './constants'
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
     if (accessTokenCookie) {
       accessToken = accessTokenCookie.split('=')[1];
 
-      fetch("http://localhost:8000/api/v1/users/current-user", {
+      fetch(base_url + "/api/v1/users/current-user", {
         method: 'GET',
         headers: {
           'Authorization': accessToken,

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { base_url } from "../constants";
 
 const useGetConversation = () => {
 
@@ -9,7 +10,7 @@ const useGetConversation = () => {
 		const getConversations = async () => {
 			setLoading(true);
 			try {
-				const res = await fetch("http://localhost:8000/api/v1/users");
+				const res = await fetch(base_url + "/api/v1/users");
 				const data = await res.json();
 				if (data.error) {
 					throw new Error(data.error);

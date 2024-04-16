@@ -1,0 +1,1 @@
+export const base_url = 'https://tin-dev-production.up.railway.app';

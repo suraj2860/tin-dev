@@ -6,6 +6,7 @@ import { faPaperPlane, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import useGetConversation from '../hooks/useGetConversation';
 import { useSelector } from 'react-redux';
 import { useSocketContext } from '../contexts/SocketContext';
+import { base_url } from '../constants';
 
 const Messaging = () => {
   const { loading, conversations } = useGetConversation();
@@ -22,7 +23,7 @@ const Messaging = () => {
       accessToken = accessTokenCookie.split('=')[1];
     }
 
-    fetch(`http://localhost:8000/api/v1/messages/${receiverId}`, {
+    fetch(`${base_url}/api/v1/messages/${receiverId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ const Messaging = () => {
         accessToken = accessTokenCookie.split('=')[1];
       }
 
-      const res = await fetch(`http://localhost:8000/api/v1/messages/send/${selectedUser._id}`, {
+      const res = await fetch(`${base_url}/api/v1/messages/send/${selectedUser._id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

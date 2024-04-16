@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice.js';
+import { base_url } from '../constants.js';
 
 const Navbar = () => {
 
@@ -24,7 +25,7 @@ const Navbar = () => {
             accessToken = accessTokenCookie.split('=')[1];
         }
 
-        fetch("http://localhost:8000/api/v1/users/logout", {
+        fetch(base_url + "/api/v1/users/logout", {
             method: 'POST',
             headers: {
                 'Authorization': accessToken,

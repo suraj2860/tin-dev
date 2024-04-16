@@ -3,6 +3,8 @@ import Navbar from './Navbar';
 import { useNavigate } from 'react-router';
 import {useDispatch} from 'react-redux';
 import { login } from '../redux/authSlice.js';
+import { base_url } from '../constants'
+
 
 const Login = () => {
 
@@ -13,7 +15,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleLogin = () => {
-    fetch("http://localhost:8000/api/v1/users/login", {
+    fetch(base_url + "/api/v1/users/login", {
       method: 'POST',
       body: JSON.stringify({
         username: username,

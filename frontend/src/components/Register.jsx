@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import defaultAvatar from '../assets/avatar.jpg'
 import { useNavigate } from 'react-router';
 import avatar from '../assets/user-avatar.jpg'
+import { base_url } from '../constants';
 
 
 const Register = () => {
@@ -54,7 +55,7 @@ const Register = () => {
             // const formDataString = Array.from(formData).map(([key, value]) => `${key}=${value}`).join(' & ');
             // console.log(formDataString);
 
-            fetch("http://localhost:8000/api/v1/users/register", {
+            fetch(base_url + "/api/v1/users/register", {
                 method: "POST",
                 body: formData
             })
